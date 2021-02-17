@@ -1,8 +1,6 @@
 """ 
-Anagram Check
-
+Anagram Solution
 Problem
-
 Given two strings, check to see if they are anagrams. An anagram is when the two strings can be written using the exact same letters (so you can just rearrange the letters to get a different phrase or word).
 
 For example:
@@ -13,49 +11,54 @@ For example:
 
 Note: Ignore spaces and capitalization. So "d go" is an anagram of "God" and "dog" and "o d g".
 
-Solution
-
-There are two ways of thinking about this problem, if two strings have the same frequency of letters/element (meaning each letter shows up the same number of times in both strings) then they are anagrams of eachother. On a similar vien of logic, if two strings are equal to each other once they are sorted, then they are also anagrams of each other.
 
  """
 
+""" Steps
+  
+  1. replace the spaces with no spaces and convert all to a lower case for both strings
+  2. check if s1 and s2 have diff len. if so return false - as they are not anagrams
+  3. intialize a counter
+  4. populate the counter with each of the element of s1 while adding 1 for each repeated element
+  5. do the same for the s2 but here subtracting for each of the repeated element
+  6. check the counter, if all elements freq is zero then both the strings are anagrams of each other
+  7 return true
 
-def anagram(s1,s2):
+ """
 
-    # Removing spaces and replacing all with lower case letters
-    s1= s1.replace(' ','').lower()
+def anagram(s1, s2):
+    s1 = s1.replace(' ', '').lower()
     s2 = s2.replace(' ', '').lower()
-    
 
-    # check in length are similar, if yes then only move forward
     if len(s1) != len(s2):
         return False
 
-    #intialize a counter 
-    count ={}
-    
+    check = {}
 
-    #add the frequency of each character of s1 into the dictionary
-    for char in s1 :
-        if char in count: 
-            count[char]+=1
+    for char in s1:
+        if char in check:
+            check[char] +=1
         else:
-            count[char] = 1
-    
-    # check if the frequency of each character in the s2 is same in dict
-    for char in s2:
-        if char in count:
-            count[char] -=1
-        else:
-            count[char] = 1
+            check[char] = 1
 
-    # check the number in dict, if it is 0 then both are anagram, else return
-    for k in count:
-        if count[k] != 0:
+    for letter in s2:
+        if letter in check:
+            check[letter] -=1
+        else:
+            check[letter]= 1
+
+
+    for element in check:
+        if check[element] !=0 :
             return False
+
         
     return True
 
+ 
 
+print(anagram("clint eastwood","old west action" ))
+print(anagram('go go go','gggooo'))
+print(anagram('abc','cba'))
+print(anagram('123','1 2'))
 
-print(anagram('clint eastwood', 'old west action'))
